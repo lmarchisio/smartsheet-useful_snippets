@@ -1,0 +1,24 @@
+import smartsheet
+import logging
+
+# Set API access token
+access_token = None
+
+# initialize client
+smart = smartsheet.Smartsheet(access_token)
+# make sure we don't miss any errors
+smart.errors_as_exceptions(True)
+# log all calls
+logging.basicConfig(filename='rwsheet.log', level=logging.INFO)
+
+response = smart.Sheets.list_sheets(include_all=True)
+sheets = response.data
+
+for sheet in sheets:
+    sheet = smart.Sheets.get_sheet(
+        sheet.id,
+        include='ownerInfo')
+    if sheet.workspace is not None:
+        if sheet.workspace.id == 8881208101758852:
+            print(sheet.name)
+            print(sheet.workspace)
