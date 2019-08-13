@@ -1,5 +1,6 @@
 import smartsheet
 import logging
+import json
 
 # Set API access token
 access_token = None
@@ -11,14 +12,24 @@ smart.errors_as_exceptions(True)
 # log all calls
 logging.basicConfig(filename='rwsheet.log', level=logging.INFO)
 
-response = smart.Sheets.list_sheets(include_all=True)
-sheets = response.data
+# put test commands here
+workspace = smart.Workspaces.get_workspace(
+    8881208101758852)
 
-for sheet in sheets:
-    sheet = smart.Sheets.get_sheet(
-        sheet.id,
-        include='ownerInfo')
-    if sheet.workspace is not None:
-        if sheet.workspace.id == 8881208101758852:
-            print(sheet.name)
-            print(sheet.workspace)
+pyworkspace = json.loads(str(workspace))
+b = pyworkspace.get('sheets', 0)
+
+for n in range(len(b)):
+    c = b[n]
+    print(str(c['name']) + ': ' + str(c['id']))
+    print(c['permalink'])
+    print()
+
+# uncomment below to print all sheet data
+#pprint.pprint(pyworkspace['sheets'])
+
+# uncomment below to print all data
+#pprint.pprint(pyworkspace)
+
+print(len(pyworkspace))
+
