@@ -12,7 +12,7 @@ smart.errors_as_exceptions(True)
 # log all calls
 logging.basicConfig(filename='rwsheet.log', level=logging.INFO)
 
-# put test commands here
+# note that this differs slightly from list_users.py as a workspace is not iterable where a list of users is
 workspace = smart.Workspaces.get_workspace(
     8881208101758852)
 
